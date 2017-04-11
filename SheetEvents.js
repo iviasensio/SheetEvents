@@ -46,6 +46,7 @@ define( [
 					var del = 0;
 					var fld = null;
 					var val = null;
+					var val2 = null;
 					var softlock = null;
 					var vari = null;
 					tasksArray = [];
@@ -55,6 +56,7 @@ define( [
 						del = $scope.layout.props['delay'];
 						fld = "'" + $scope.layout.props['field' + i] + "'";
 						val = "'" + $scope.layout.props['value' + i] + "'";
+						val2 = $scope.layout.props['value' + i].split(';').join("'};{qText: '");
 						softlock = "'" + $scope.layout.props['softlock' + i] + "'";
 						vari = "'" + _self.backendApi.model.layout.props['variable' + i] + "'";						
 												
@@ -83,6 +85,12 @@ define( [
 									tasksArray[i - 1] = 'app.field( ' + fld + ' ).selectExcluded( ' + softlock + ')';
 								}
 								break;
+							case "selectPossible":
+								if ( !_.isEmpty( fld ) ) {
+									//tasksArray[i - 1] = 'app.field( ' + fld + ' ).selectPossible( ' + softlock + ')';
+									tasksArray[i - 1] = 'app.field( ' + fld + ' ).selectPossible()';
+								}
+								break;
 							case "selectField":
 								
 								if ( !_.isEmpty( fld ) && ( !_.isEmpty( val )) ) {
@@ -92,8 +100,8 @@ define( [
 								break;
 							case "selectValues":
 								if ( !_.isEmpty( fld ) && ( !_.isEmpty( val )) ) {
-									var vals = splitToStringNum( val, ';' );
-									tasksArray[i - 1] = 'app.field( ' + fld + ' ).selectValues( ' + vals + ', false )';
+									var vals = '[' + splitToStringNum( "{qText: '" + val2 + "'}", ';' ) + ']';
+									tasksArray[i - 1] = 'app.field( ' + fld + ' ).selectValues( ' + vals + ', false )';									
 								}
 								break;
 							case "selectandLockField":
@@ -192,6 +200,11 @@ define( [
 									app.field( fld ).selectExcluded( softlock );
 								}
 								break;
+							case "selectPossible":
+								if ( !_.isEmpty( fld ) ) {
+									app.field( fld ).selectPossible( softlock );
+								}
+								break;
 							case "selectField":
 								if ( !_.isEmpty( fld ) && ( !_.isEmpty( val )) ) {
 									app.field( fld ).selectMatch( val, false );
@@ -201,6 +214,7 @@ define( [
 								if ( !_.isEmpty( fld ) && ( !_.isEmpty( val )) ) {
 									var vals = splitToStringNum( val, ';' );
 									app.field( fld ).selectValues( vals, false );
+									console.log('1:'+'app.field( ' + fld + ' ).selectValues( ' + vals + ', false )');
 								}
 								break;
 							case "selectandLockField":

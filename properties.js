@@ -107,6 +107,10 @@ define( [
 			label: "Lock Field"
 		},
 		{
+			value: "selectPossible",
+			label: "Select Possible Values"
+		},
+		{
 			value: "selectExcluded",
 			label: "Select Excluded Values"
 		},
@@ -248,7 +252,7 @@ define( [
 		options: actionOptions
 	};
 
-	var fieldEnabler = ['selectField', 'selectValues', 'clearField', 'selectandLockField', 'lockField', 'selectAlternative', 'selectExcluded'];
+	var fieldEnabler = ['selectField', 'selectValues', 'clearField', 'selectandLockField', 'lockField', 'selectAlternative', 'selectExcluded','selectPossible'];
 	var field1 = {
 		type: "string",
 		ref: "props.field1",
@@ -871,7 +875,7 @@ define( [
 		}
 	};
 
-	var softLockEnabler = ['selectAlternative', 'selectExcluded'];
+	var softLockEnabler = ['selectAlternative', 'selectExcluded','selectPossible'];
 	var softlock1 = {
 		type: "boolean",
 		label: "Soft Lock",
